@@ -9,78 +9,100 @@ import SwiftUI
 
 struct ContentView: View {
     
-    /// imageID를 통해 매번 다른 URL을 생성하여 랜덤 이미지를 가져오기 위한 고유 식별자
-    @State private var imageID = UUID()
-    @State private var uiImage: UIImage? = nil
+    /// 보여줄 이미지 개수
+    private let imageCount = 6
+    
+    /// 각각의 랜덤 이미지 ID들
+    @State private var imageIDs: [UUID] = []
+    /// 로드된 UIImages (optional)
+    @State private var uiImages: [UIImage?] = []
     @State private var isLoading: Bool = false
-
+    
+    /// 그리드 레이아웃 (2열)
+    private let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
+    
     var body: some View {
-        
         VStack {
             
-            if let image = uiImage {
-                Image(uiImage: image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .padding()
-                    .opacity(isLoading ? 0.5 : 1)
-                    .overlay(
-                        Group {
-                            if isLoading {
-                                ProgressView("Loading Image...")
-                                    .padding()
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(uiImages.indices, id: \.self) { idx in
+                        if let img = uiImages[idx] {
+                            Image(uiImage: img)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(height: 150)
+                                .clipped()
+                                .cornerRadius(8)
+                        } else {
+                            ZStack {
+                                Rectangle()
+                                    .fill(Color.gray.opacity(0.2))
+                                    .frame(height: 150)
+                                    .cornerRadius(8)
+                                ProgressView()
                             }
                         }
-                    )
-            }
-
-            // 버튼을 눌러 새로운 UUID 할당 -> URL 변경되어 새 이미지 로드
-            Button(action: {
-                imageID = UUID()
-                Task {
-                    await loadImage()
+                    }
                 }
-            }) {
-                Text("랜덤 이미지 불러오기")
-                    .font(.headline)
-                    .padding()
-                    .background(Color.accentColor)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+                .padding()
             }
+            
+            Button("다시 불러오기") {
+                Task {
+                    await loadImages()
+                }
+            }
+            .disabled(isLoading)
             .padding()
         }
         .task {
-            await loadImage()
+            // 초기 UUID 배열 및 빈 이미지 슬롯 세팅
+            imageIDs = (0..<imageCount).map { _ in UUID() }
+            uiImages = Array(repeating: nil, count: imageCount)
+            
+            await loadImages()
         }
     }
     
-    /// imageID를 활용해 매번 다른 query parameter를 붙인 URL 생성
-    private var imageURL: URL? {
+    // MARK: - func
+    
+    /// UUID 기반 랜덤 URL 생성
+    private func url(for id: UUID) -> URL {
         
-        URL(string: "https://picsum.photos/600?random=\(imageID.uuidString)")
+        URL(string: "https://picsum.photos/300?random=\(id.uuidString)")!
     }
     
-    private func loadImage() async {
+    /// 여러 이미지를 병렬로 불러오기
+    private func loadImages() async {
         
         isLoading = true
+        defer { isLoading = false }
         
-        defer {
-            isLoading = false
-        }
+        // 새로운 UUID 재생성 (버튼 클릭 시마다 새 이미지)
+        imageIDs = (0..<imageCount).map { _ in UUID() }
+        uiImages = Array(repeating: nil, count: imageCount)
         
-        guard let url = imageURL else {
-            return
-        }
-        
-        do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            if let fetchedImage = UIImage(data: data) {
-                uiImage = fetchedImage
+        await withTaskGroup(of: (Int, UIImage?).self) { group in
+            for (idx, id) in imageIDs.enumerated() {
+                group.addTask {
+                    do {
+                        let (data, _) = try await URLSession.shared.data(from: url(for: id))
+                        return (idx, UIImage(data: data))
+                    } catch {
+                        print("Error loading image \(idx):", error)
+                        return (idx, nil)
+                    }
+                }
             }
-        } catch {
-            print("Error fetching image: \(error)")
+            
+            // 완료된 순서대로 결과 할당
+            for await (idx, image) in group {
+                uiImages[idx] = image
+            }
         }
     }
 }
