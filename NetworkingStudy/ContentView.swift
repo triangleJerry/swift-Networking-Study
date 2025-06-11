@@ -5,12 +5,10 @@
 //  Created by 장은석 on 6/2/25.
 //
 
+import Foundation
 import SwiftUI
 
 struct ContentView: View {
-    
-    /// 보여줄 이미지 개수
-    private let imageCount = 6
     
     /// 각각의 랜덤 이미지 ID들
     @State private var imageIDs: [UUID] = []
@@ -18,11 +16,17 @@ struct ContentView: View {
     @State private var uiImages: [UIImage?] = []
     @State private var isLoading: Bool = false
     
+    
+    /// 보여줄 이미지 개수
+    private let imageCount = 6
+    
     /// 그리드 레이아웃 (2열)
     private let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
+    
+    private let networkService = NetworkService()
     
     var body: some View {
         VStack {
@@ -90,8 +94,8 @@ struct ContentView: View {
             for (idx, id) in imageIDs.enumerated() {
                 group.addTask {
                     do {
-                        let (data, _) = try await URLSession.shared.data(from: url(for: id))
-                        return (idx, UIImage(data: data))
+                        let image = try await networkService.fetchImage(from: url(for: id))
+                        return (idx, image)
                     } catch {
                         print("Error loading image \(idx):", error)
                         return (idx, nil)
