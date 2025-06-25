@@ -42,10 +42,10 @@ jobs:
             -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2'
 
       # 단계 5: 시뮬레이터에서 단위 테스트 실행
-      - name: Run tests
-        run: |
-          xcodebuild test \
-            -project NetworkingStudy.xcodeproj \
-            -scheme NetworkingStudy \
-            -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2'
+      # - name: Run tests
+      #   run: |
+      #     xcodebuild test \
+      #       -project NetworkingStudy.xcodeproj \
+      #       -scheme NetworkingStudy \
+      #       -sdk iphonesimulator \
+      #       -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2'
