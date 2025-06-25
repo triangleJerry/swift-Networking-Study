@@ -39,7 +39,7 @@ jobs:
             -project NetworkingStudy.xcodeproj \
             -scheme NetworkingStudy \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
+            -destination 'platform=iOS Simulator,name=iPhone 14,OS=18.2'
 
       # 단계 5: 시뮬레이터에서 단위 테스트 실행
       - name: Run tests
@@ -48,4 +48,4 @@ jobs:
             -project NetworkingStudy.xcodeproj \
             -scheme NetworkingStudy \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
+            -destination 'platform=iOS Simulator,name=iPhone 14,OS=18.2'
