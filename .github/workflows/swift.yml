@@ -1,22 +1,39 @@
 # This workflow will build a Swift project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
 
-name: Swift
+# .github/workflows/ci.yml
+name: iOS CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main                # main 브랜치에 푸시되면 실행
   pull_request:
-    branches: [ "main" ]
+    types: [opened, synchronize, reopened]  # PR 생성·동기화·재오픈 시 실행
 
 jobs:
   build:
-
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build
-      run: swift build -v
-    - name: Run tests
-      run: swift test -v
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Resolve Swift Package dependencies
+        run: xcodebuild -resolvePackageDependencies
+
+      - name: Build
+        run: |
+          xcodebuild clean build \
+            -project YourApp.xcodeproj \
+            -scheme YourApp \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
+
+      - name: Run tests
+        run: |
+          xcodebuild test \
+            -project YourApp.xcodeproj \
+            -scheme YourApp \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.0'
