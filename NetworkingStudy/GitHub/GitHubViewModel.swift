@@ -7,27 +7,22 @@
 
 import SwiftUI
 
-@MainActor
 final class GitHubViewModel: ObservableObject {
 
-    @Published var gitHubUsers: [GitHubUserModel] = []
+    @MainActor @Published var gitHubUsers: [GitHubUserModel] = []
     private let networkService = NetworkService()
  
-    func fetchGitHubUsers() {
+    func fetchGitHubUsers() async {
         
-        Task { [weak self] in
-            
-            guard let self else {
-                return
-            }
-            
-            do {
-                // GitHub API 호출 (DTO 반환)
-                let dto = try await networkService.searchUsers(query: "swift", page: "1", perPage: "10")
+        do {
+            // GitHub API 호출 (DTO 반환)
+            let dto = try await networkService.searchUsers(query: "swift", page: "1", perPage: "10")
+            await MainActor.run {
                 self.gitHubUsers = dto
-            } catch {
-                print("Error:", error)
             }
+        } catch {
+            print("Error:", error)
         }
+
     }
 }

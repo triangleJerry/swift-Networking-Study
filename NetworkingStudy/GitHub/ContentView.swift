@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  GitHubUsersView.swift
 //  NetworkingStudy
 //
 //  Created by 장은석 on 6/2/25.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct ContentView: View {
+struct GitHubUsersView: View {
     
     @ObservedObject private var viewModel = GitHubViewModel()
     
@@ -23,16 +23,16 @@ struct ContentView: View {
                     UserProfileRow(user: user)
                 }
             }
+            .padding()
         }
         .task {
-            viewModel.fetchGitHubUsers()
+            await viewModel.fetchGitHubUsers()
         }
-        
     }
     
     // MARK: - func
 }
 
 #Preview {
-    ContentView()
+    GitHubUsersView()
 }
