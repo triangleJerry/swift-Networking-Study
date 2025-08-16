@@ -8,10 +8,10 @@
 import Foundation
 
 /// GitHub 사용자 DTO
-struct GitHubUserModel: Identifiable, Decodable {
+struct GitHubUserModel: Decodable {
     
     /// GitHub 사용자의 고유 식별자
-    let id: Int
+    var id: Int
     
     /// GitHub 로그인 이름
     let login: String

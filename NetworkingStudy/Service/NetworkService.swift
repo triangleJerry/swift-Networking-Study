@@ -31,4 +31,20 @@ class NetworkService {
             throw URLError(.badURL)
         }
     }
+    
+    func searchRamdomUser() async throws -> [RamdomUserModel] {
+
+        guard let url = URL(string: "https://randomuser.me/api/?results=10") else {
+            throw URLError(.badURL)
+        }
+        
+        print("hhh \(url)")
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            let decodedData = try JSONDecoder().decode(RamdomUserResponseDTO.self, from: data)
+            return decodedData.results
+        } catch {
+            throw URLError(.badURL)
+        }
+    }
 }

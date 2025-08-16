@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0541E8482E5077BD0081E352 /* RamdomUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0541E8472E5077BD0081E352 /* RamdomUserModel.swift */; };
+		0541E84A2E50783C0081E352 /* RamdomUserResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0541E8492E50783C0081E352 /* RamdomUserResponseDTO.swift */; };
+		0541E84C2E5078670081E352 /* RamdomUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0541E84B2E5078670081E352 /* RamdomUserViewModel.swift */; };
+		0541E84E2E5079730081E352 /* RandomUserProfileRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0541E84D2E5079730081E352 /* RandomUserProfileRow.swift */; };
 		0553EDEE2DED92ED00F42AB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0553EDEA2DED92ED00F42AB3 /* Assets.xcassets */; };
 		0553EDEF2DED92ED00F42AB3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0553EDEB2DED92ED00F42AB3 /* ContentView.swift */; };
 		0553EDF02DED92ED00F42AB3 /* NetworkingStudyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0553EDEC2DED92ED00F42AB3 /* NetworkingStudyApp.swift */; };
@@ -18,6 +22,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0541E8472E5077BD0081E352 /* RamdomUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamdomUserModel.swift; sourceTree = "<group>"; };
+		0541E8492E50783C0081E352 /* RamdomUserResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamdomUserResponseDTO.swift; sourceTree = "<group>"; };
+		0541E84B2E5078670081E352 /* RamdomUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamdomUserViewModel.swift; sourceTree = "<group>"; };
+		0541E84D2E5079730081E352 /* RandomUserProfileRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomUserProfileRow.swift; sourceTree = "<group>"; };
 		0553EDD62DED92CB00F42AB3 /* NetworkingStudy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkingStudy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0553EDEA2DED92ED00F42AB3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0553EDEB2DED92ED00F42AB3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -40,6 +48,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0541E8442E5077840081E352 /* Ramdom */ = {
+			isa = PBXGroup;
+			children = (
+				0541E84B2E5078670081E352 /* RamdomUserViewModel.swift */,
+				0541E84D2E5079730081E352 /* RandomUserProfileRow.swift */,
+			);
+			path = Ramdom;
+			sourceTree = "<group>";
+		};
 		0553EDCD2DED92CB00F42AB3 = {
 			isa = PBXGroup;
 			children = (
@@ -60,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				0553EDEC2DED92ED00F42AB3 /* NetworkingStudyApp.swift */,
+				0541E8442E5077840081E352 /* Ramdom */,
 				057A739C2E49DCD6000D0864 /* GitHub */,
 				057A73912E49D406000D0864 /* DTOs */,
 				05A4A6522DF96CE7007319B5 /* Service */,
@@ -74,6 +92,8 @@
 			children = (
 				057A73982E49DB7B000D0864 /* GitHubSearchResponseDTO.swift */,
 				057A73922E49D409000D0864 /* GitHubUserModel.swift */,
+				0541E8492E50783C0081E352 /* RamdomUserResponseDTO.swift */,
+				0541E8472E5077BD0081E352 /* RamdomUserModel.swift */,
 			);
 			path = DTOs;
 			sourceTree = "<group>";
@@ -167,11 +187,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0541E84E2E5079730081E352 /* RandomUserProfileRow.swift in Sources */,
+				0541E8482E5077BD0081E352 /* RamdomUserModel.swift in Sources */,
+				0541E84C2E5078670081E352 /* RamdomUserViewModel.swift in Sources */,
 				0553EDEF2DED92ED00F42AB3 /* ContentView.swift in Sources */,
 				05A4A6512DF96CE3007319B5 /* NetworkService.swift in Sources */,
 				0553EDF02DED92ED00F42AB3 /* NetworkingStudyApp.swift in Sources */,
 				057A73992E49DB7B000D0864 /* GitHubSearchResponseDTO.swift in Sources */,
 				057A73932E49D409000D0864 /* GitHubUserModel.swift in Sources */,
+				0541E84A2E50783C0081E352 /* RamdomUserResponseDTO.swift in Sources */,
 				057A739B2E49DCCC000D0864 /* GitHubViewModel.swift in Sources */,
 				057A73972E49D657000D0864 /* UserProfileRow.swift in Sources */,
 			);

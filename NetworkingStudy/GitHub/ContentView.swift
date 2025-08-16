@@ -10,23 +10,36 @@ import SwiftUI
 
 struct GitHubUsersView: View {
     
-    @ObservedObject private var viewModel = GitHubViewModel()
+    @StateObject private var viewModel = RamdomUserViewModel()
     
     var body: some View {
         
-        VStack {
-            Text("GitHub User List")
+        Text("Ramdom User List")
+        
+        ScrollView {
             
-            ScrollView {
+            LazyVStack {
                 
-                ForEach(viewModel.gitHubUsers) { user in
-                    UserProfileRow(user: user)
+                ForEach(viewModel.ramdomUsers.indices, id: \.self) { index in
+                    
+                    let user = viewModel.ramdomUsers[index]
+                    RandomUserProfileRow(user: user)
+//                        .task {
+//                            if index == viewModel.ramdomUsers.count - 1 {
+//                                await viewModel.fetchRamdomUsers()
+//                            }
+//                        }
+                    
+                    if viewModel.isLoading {
+                        ProgressView()
+                    }
                 }
             }
-            .padding()
         }
+        .padding()
+        .ignoresSafeArea()
         .task {
-            await viewModel.fetchGitHubUsers()
+            await viewModel.fetchRamdomUsers()
         }
     }
     
