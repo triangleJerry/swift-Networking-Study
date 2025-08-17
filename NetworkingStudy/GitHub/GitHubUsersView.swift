@@ -24,15 +24,15 @@ struct GitHubUsersView: View {
                     
                     let user = viewModel.ramdomUsers[index]
                     RandomUserProfileRow(user: user)
-//                        .task {
-//                            if index == viewModel.ramdomUsers.count - 1 {
-//                                await viewModel.fetchRamdomUsers()
-//                            }
-//                        }
-                    
-                    if viewModel.isLoading {
-                        ProgressView()
-                    }
+                        .task {
+                            if index == viewModel.ramdomUsers.count - 1 {
+                                await viewModel.fetchRamdomUsers()
+                            }
+                        }
+                }
+                
+                if viewModel.isLoading {
+                    ProgressView()
                 }
             }
         }

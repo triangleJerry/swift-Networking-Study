@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import OSLog
 
 class NetworkService {
+    
+    let logger = Logger(subsystem: "NetworkingStudy", category: "Network")
     
     /// 사용자 검색
     func searchUsers(query: String, page: String, perPage: String) async throws -> [GitHubUserModel] {
@@ -21,8 +24,8 @@ class NetworkService {
         guard let url = components?.url else {
             throw URLError(.badURL)
         }
-        
-        print("hhh \(url)")
+        print("Request URL: \(url.absoluteString)")
+        logger.info("Request URL: \(url.absoluteString)")
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             let decodedData = try JSONDecoder().decode(GitHubSearchResponseDTO.self, from: data)
@@ -38,7 +41,8 @@ class NetworkService {
             throw URLError(.badURL)
         }
         
-        print("hhh \(url)")
+        print("Request URL: \(url.absoluteString)")
+        logger.info("Request URL: \(url.absoluteString)")
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             let decodedData = try JSONDecoder().decode(RamdomUserResponseDTO.self, from: data)
