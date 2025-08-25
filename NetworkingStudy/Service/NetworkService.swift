@@ -6,27 +6,43 @@
 //
 
 import SwiftUI
-import UIKit
+import OSLog
 
-protocol NetworkServiceProtocol {
+class NetworkService {
     
-    func fetchImage(from url: URL) async throws -> UIImage?
-}
-
-class NetworkService: NetworkServiceProtocol {
+    let logger = Logger(subsystem: "NetworkingStudy", category: "Network")
     
-    private let session: URLSession
-
-    init(session: URLSession = .shared) {
+    /// 사용자 검색
+    func searchUsers(query: String, page: String, perPage: String) async throws -> [GitHubUserModel] {
         
-        self.session = session
+        var components = URLComponents(string: "https://api.github.com/search/users")
+        components?.queryItems = [
+            URLQueryItem(name: "q", value: query),
+            URLQueryItem(name: "per_page", value: perPage),
+            URLQueryItem(name: "page", value: page)
+        ]
+        guard let url = components?.url else {
+            throw URLError(.badURL)
+        }
+        print("Request URL: \(url.absoluteString)")
+        logger.info("Request URL: \(url.absoluteString)")
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            let decodedData = try JSONDecoder().decode(GitHubSearchResponseDTO.self, from: data)
+            return decodedData.items
+        } catch {
+            throw URLError(.badURL)
+        }
     }
     
-    /// Fetches and returns a UIImage from the specified URL using async/await.
-    func fetchImage(from url: URL) async throws -> UIImage? {
-        // Perform the network request
-        let (data, _) = try await session.data(from: url)
-        // Convert Data to UIImage
-        return UIImage(data: data)
+    func searchRandomUser() async throws -> [RamdomUserModel] {
+        
+        guard let url = URL(string: "https://randomuser.me/api/?results=10") else {
+            throw URLError(.badURL)
+        }
+
+        let (data, _) = try await URLSession.shared.data(from: url)
+        let decodedData = try JSONDecoder().decode(RamdomUserResponseDTO.self, from: data)
+        return decodedData.results
     }
 }
