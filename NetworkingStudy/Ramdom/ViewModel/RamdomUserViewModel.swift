@@ -20,7 +20,7 @@ final class RamdomUserViewModel: ObservableObject {
         
         do {
             // GitHub API 호출 (DTO 반환)
-            let result = try await networkService.searchRamdomUser()
+            let result = try await networkService.searchRandomUser()
             ramdomUsers.append(contentsOf: result)
             isLoading = false
         } catch {

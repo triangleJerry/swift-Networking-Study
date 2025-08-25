@@ -15,12 +15,13 @@ struct RandomUserProfileRow: View {
         
         HStack {
             
-            AsyncImage(url: URL(string: user.picture["thumbnail"]!)) { phase in
+            AsyncImage(url: URL(string: user.picture.thumbnail)) { phase in
                 switch phase {
                 case .empty:
                     ProgressView()
                 case .success(let image):
-                    image.resizable()
+                    image
+                        .resizable()
                         .frame(width: 40, height: 40)
                         .clipShape(Circle())
                 case .failure(_):
@@ -31,7 +32,7 @@ struct RandomUserProfileRow: View {
             }
             .padding(.trailing, 4)
             
-            Text(user.name["title"] ?? "")
+            Text(user.name.title)
 
             Spacer()
         }
@@ -47,5 +48,5 @@ struct RandomUserProfileRow: View {
 }
 
 #Preview {
-    RandomUserProfileRow(user: RamdomUserModel(name: ["title": "hi"], email: "", picture: ["thumbnail": "https://randomuser.me/api/portraits/thumb/women/32.jpg"]))
+    RandomUserProfileRow(user: RamdomUserModel(name: Name(title: "hi", first: "first", last: "last"), email: "", picture: Picture(large: "", medium: "", thumbnail: "https://randomuser.me/api/portraits/thumb/women/32.jpg")))
 }

@@ -26,7 +26,7 @@ struct RamdomUsersView: View {
                     let user = viewModel.ramdomUsers[index]
                     RandomUserProfileRow(user: user)
                         .task {
-                            if index == viewModel.ramdomUsers.count - 1 {
+                            if index == viewModel.ramdomUsers.count - 1 && !viewModel.isLoading {
                                 await viewModel.fetchRamdomUsers()
                             }
                         }

@@ -35,20 +35,14 @@ class NetworkService {
         }
     }
     
-    func searchRamdomUser() async throws -> [RamdomUserModel] {
-
+    func searchRandomUser() async throws -> [RamdomUserModel] {
+        
         guard let url = URL(string: "https://randomuser.me/api/?results=10") else {
             throw URLError(.badURL)
         }
-        
-        print("Request URL: \(url.absoluteString)")
-        logger.info("Request URL: \(url.absoluteString)")
-        do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            let decodedData = try JSONDecoder().decode(RamdomUserResponseDTO.self, from: data)
-            return decodedData.results
-        } catch {
-            throw URLError(.badURL)
-        }
+
+        let (data, _) = try await URLSession.shared.data(from: url)
+        let decodedData = try JSONDecoder().decode(RamdomUserResponseDTO.self, from: data)
+        return decodedData.results
     }
 }

@@ -9,7 +9,21 @@ import Foundation
 
 struct RamdomUserModel: Decodable {
     
-    let name: [String: String]
+    let name: Name
     let email: String
-    let picture: [String: String]
+    let picture: Picture
+}
+
+/// 이름
+struct Name: Decodable {
+    let title: String
+    let first: String
+    let last: String
+}
+
+/// 사진
+struct Picture: Decodable {
+    let large: String
+    let medium: String
+    let thumbnail: String
 }
