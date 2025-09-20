@@ -16,7 +16,7 @@ struct UserProfileRow: View {
         
         HStack {
             
-            AsyncImage(url: user.avatarURL) { phase in
+            CachedAsyncImage(url: user.avatarURL) { phase in
                 switch phase {
                 case .empty:
                     ProgressView()

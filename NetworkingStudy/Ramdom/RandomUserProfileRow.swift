@@ -15,7 +15,7 @@ struct RandomUserProfileRow: View {
         
         HStack {
             
-            AsyncImage(url: URL(string: user.picture.thumbnail)) { phase in
+            CachedAsyncImage(url: URL(string: user.picture.thumbnail)) { phase in
                 switch phase {
                 case .empty:
                     ProgressView()
